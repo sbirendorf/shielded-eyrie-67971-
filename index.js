@@ -23,7 +23,10 @@ var credentials = {
     password: 'bir38116554'
 };
 // listen (start app with node server.js) ======================================
-app.listen(5000);
+// app.listen(5000);
+app.listen(process.env.PORT || 3000, function(){
+  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+});
 console.log("listening on port 5000");
 app.get('/api/get_price/:tagId', function (req, res) {
 
