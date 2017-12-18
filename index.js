@@ -19,15 +19,14 @@ app.use(methodOverride());
 
 //global 
 var credentials = {
-    username: 'sbirendorf',
+    username: 'sbirendorf@gmail.com',
     password: 'bir38116554'
 };
 // listen (start app with node server.js) ======================================
-// app.listen(5000);
 app.listen(process.env.PORT || 3000, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
-console.log("listening on port 5000");
+
 app.get('/api/get_price/:tagId', function (req, res) {
 
        var Robinhood = require('robinhood')(credentials, function(){
@@ -97,41 +96,38 @@ app.get('/api/get_history/:tagId', function (req, res) {
 
 });
 
-// app.get('/api/get_history/:tagId', function (req, res) {
+app.post('/api/order_buy', function (req, res) {
+     res.send(req);
+    console.log(req);
+    console.log('here');
+    console.log( JSON.parse(req.body.data));
+     res.send(body);
+    return;
+       // var Robinhood = require('robinhood')(credentials, function(){
+       //  console.log('here');
+       //       var options = {
+       //          type: 'limit',
+       //          quantity: 1,
+       //          bid_price: 10.00,
+       //          instrument: {
+       //              url: "https://api.robinhood.com/instruments/ebab2398-028d-4939-9f1d-13bf38f81c50/",
+       //              symbol: 'FB'
+       //          }
+       //          // // Optional:
+       //          // trigger: String, // Defaults to "gfd" (Good For Day)
+       //          // time: String,    // Defaults to "immediate"
+       //          // type: String     // Defaults to "market"
+       //      }
+       //      Robinhood.place_buy_order(options, function(error, response, body){
+       //          if(error){
+       //              console.error(error);
+       //          }else{
+       //              console.log(body);
+       //          }
+       //      })
+       //  });
 
-//        var Robinhood = require('robinhood')(credentials, function(){
-//        Robinhood.historicals(req.param("tagId"), '5minute', 'week', function(err, response, body){
-//         if(err){
-//             //console.error(err);
-//             // res.send(err);
-//             console.log('errot');
-//         }else{
-//             console.log("got historicals");
-//            // console.log(body);
-//            // res.send(body);
-//                     //{
-//                     //    results: [
-//                     //        {
-//                     //            ask_price: String, // Float number in a String, e.g. '735.7800'
-//                     //            ask_size: Number, // Integer
-//                     //            bid_price: String, // Float number in a String, e.g. '731.5000'
-//                     //            bid_size: Number, // Integer
-//                     //            last_trade_price: String, // Float number in a String, e.g. '726.3900'
-//                     //            last_extended_hours_trade_price: String, // Float number in a String, e.g. '735.7500'
-//                     //            previous_close: String, // Float number in a String, e.g. '743.6200'
-//                     //            adjusted_previous_close: String, // Float number in a String, e.g. '743.6200'
-//                     //            previous_close_date: String, // YYYY-MM-DD e.g. '2016-01-06'
-//                     //            symbol: String, // e.g. 'AAPL'
-//                     //            trading_halted: Boolean,
-//                     //            updated_at: String, // YYYY-MM-DDTHH:MM:SS e.g. '2016-01-07T21:00:00Z'
-//                     //        }
-//                     //    ]
-//                     //}
-//                 }
-//             })
-//         });
-
-// });
+});
 
 app.get('*', function (req, res) {
     res.sendfile('./public/index.html'); // load the single view file
