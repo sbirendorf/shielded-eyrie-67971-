@@ -22,6 +22,7 @@ var credentials = {
     username: 'sbirendorf@gmail.com',
     password: 'bir38116554'
 };
+
 // listen (start app with node server.js) ======================================
 app.listen(process.env.PORT || 3000, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
@@ -97,37 +98,113 @@ app.get('/api/get_history/:tagId', function (req, res) {
 });
 
 app.post('/api/order_buy', function (req, res) {
-     res.send(req);
-    console.log(req);
-    console.log('here');
-    console.log( JSON.parse(req.body.data));
-     res.send(body);
-    return;
-       // var Robinhood = require('robinhood')(credentials, function(){
-       //  console.log('here');
-       //       var options = {
-       //          type: 'limit',
-       //          quantity: 1,
-       //          bid_price: 10.00,
-       //          instrument: {
-       //              url: "https://api.robinhood.com/instruments/ebab2398-028d-4939-9f1d-13bf38f81c50/",
-       //              symbol: 'FB'
-       //          }
-       //          // // Optional:
-       //          // trigger: String, // Defaults to "gfd" (Good For Day)
-       //          // time: String,    // Defaults to "immediate"
-       //          // type: String     // Defaults to "market"
-       //      }
-       //      Robinhood.place_buy_order(options, function(error, response, body){
-       //          if(error){
-       //              console.error(error);
-       //          }else{
-       //              console.log(body);
-       //          }
-       //      })
-       //  });
+    if(!checkToken(req.body.token)){
+        return;
+    }
+
+     var Robinhood = require('robinhood')(credentials, function(){
+           var options = {
+              type: req.body.type,
+              quantity: req.body.quantity,
+              bid_price: req.body.bid_price,
+              instrument: {
+                  url: req.body.url,
+                  symbol: req.body.symbol
+              }
+              // // Optional:
+              // trigger: String, // Defaults to "gfd" (Good For Day)
+              // time: String,    // Defaults to "immediate"
+              // type: String     // Defaults to "market"
+          }
+          Robinhood.place_buy_order(options, function(error, response, body){
+              if(error){
+                  console.error(error);
+                   res.send(error);
+              }else{
+                  console.log(body);
+                  res.send(body);
+              }
+          })
+      });
 
 });
+
+app.post('/api/order_sell', function (req, res) {
+    if(!checkToken(req.body.token)){
+        return;
+    }
+
+     var Robinhood = require('robinhood')(credentials, function(){
+           var options = {
+              type: req.body.type,
+              quantity: req.body.quantity,
+              bid_price: req.body.bid_price,
+              instrument: {
+                  url: req.body.url,
+                  symbol: req.body.symbol
+              }
+              // // Optional:
+              // trigger: String, // Defaults to "gfd" (Good For Day)
+              // time: String,    // Defaults to "immediate"
+              // type: String     // Defaults to "market"
+          }
+          Robinhood.place_sell_order(options, function(error, response, body){
+              if(error){
+                  console.error(error);
+                   res.send(error);
+              }else{
+                  console.log(body);
+                  res.send(body);
+              }
+          })
+      });
+
+});
+
+
+app.post('/api/order_cancel', function (req, res) {
+    if(!checkToken(req.body.token)){
+        return;
+    }
+     var Robinhood = require('robinhood')(credentials, function(){
+           var options = {
+               cancel: req.body.cancel
+          };
+
+          Robinhood.cancel_order(options, function(error, response, body){
+              if(error){
+                  console.error(error);
+                   res.send(error);
+              }else{
+                  console.log(body);
+                  res.send(body);
+              }
+          })
+      });
+
+});
+
+
+app.post('/api/orders', function (req, res) {
+    if(!checkToken(req.body.token)){
+        return;
+    }
+
+       var Robinhood = require('robinhood')(credentials, function(){
+            Robinhood.orders( function(err, response, body){
+                if(err){
+                    console.error(err);
+                     res.send(err);
+                }else{
+                    console.log("quote_data");
+                    console.log(body);
+                     res.send(body);
+                }
+            })
+        });
+
+});
+
 
 app.get('*', function (req, res) {
     res.sendfile('./public/index.html'); // load the single view file
@@ -135,3 +212,16 @@ app.get('*', function (req, res) {
 
 
 
+function checkToken(t){
+  var token = '54!81%527*^%@97S_375caw05';
+  if(t == token){
+    return true;
+  }
+  return false;
+}
+
+
+
+
+
+   

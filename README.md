@@ -1,39 +1,14 @@
-# node-js-getting-started
 
-A barebones Node.js app using [Express 4](http://expressjs.com/).
+$data = array('token'=>'','cancel'=> '/orders/34b0b086-ad44-440a-ba80-c1da2f3ab8b5/cancel/');
 
-This application supports the [Getting Started with Node on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs) article - check it out.
 
-## Running Locally
-
-Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
-
-```sh
-$ git clone git@github.com:heroku/node-js-getting-started.git # or clone your own fork
-$ cd node-js-getting-started
-$ npm install
-$ npm start
-```
-
-Your app should now be running on [localhost:5000](http://localhost:5000/).
-
-## Deploying to Heroku
-
-```
-$ heroku create
-$ git push heroku master
-$ heroku open
-```
-or
-
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
-## Documentation
-
-For more information about using Node.js on Heroku, see these Dev Center articles:
-
-- [Getting Started with Node.js on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
-- [Heroku Node.js Support](https://devcenter.heroku.com/articles/nodejs-support)
-- [Node.js on Heroku](https://devcenter.heroku.com/categories/nodejs)
-- [Best Practices for Node.js Development](https://devcenter.heroku.com/articles/node-best-practices)
-- [Using WebSockets on Heroku with Node.js](https://devcenter.heroku.com/articles/node-websockets)
+$data = array('token'=>'','type'=>'limit','quantity'=>1,'bid_price'=>10.12,
+'url'=>'https://api.robinhood.com/instruments/ebab2398-028d-4939-9f1d-13bf38f81c50/','symbol'=>'FB');
+$data = http_build_query($data);
+      $handle = curl_init('http://localhost:3000/api/order_cancel');
+      curl_setopt($handle, CURLOPT_POST, true);
+      curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
+      curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
+      $response = curl_exec($handle);
+      //echo ($response);
+      $response = json_decode($response,true);
