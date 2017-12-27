@@ -99,6 +99,7 @@ app.get('/api/get_history/:tagId', function (req, res) {
 
 app.post('/api/order_buy', function (req, res) {
     if(!checkToken(req.body.token)){
+        res.send('Invalid token');
         return;
     }
 
@@ -107,6 +108,8 @@ app.post('/api/order_buy', function (req, res) {
               type: req.body.type,
               quantity: req.body.quantity,
               bid_price: req.body.bid_price,
+              stop_price: req.body.stop_price,
+              trigger:req.body.trigger,
               instrument: {
                   url: req.body.url,
                   symbol: req.body.symbol
@@ -131,6 +134,7 @@ app.post('/api/order_buy', function (req, res) {
 
 app.post('/api/order_sell', function (req, res) {
     if(!checkToken(req.body.token)){
+        res.send('Invalid token');
         return;
     }
 
@@ -139,6 +143,8 @@ app.post('/api/order_sell', function (req, res) {
               type: req.body.type,
               quantity: req.body.quantity,
               bid_price: req.body.bid_price,
+              stop_price: req.body.stop_price,
+              trigger:req.body.trigger,
               instrument: {
                   url: req.body.url,
                   symbol: req.body.symbol
@@ -146,7 +152,38 @@ app.post('/api/order_sell', function (req, res) {
               // // Optional:
               // trigger: String, // Defaults to "gfd" (Good For Day)
               // time: String,    // Defaults to "immediate"
-              // type: String     // Defaults to "market"
+              // type: String     // Defaults to "market", "limit"
+          }
+          Robinhood.place_sell_order(options, function(error, response, body){
+              if(error){
+                  console.error(error);
+                   res.send(error);
+              }else{
+                  console.log(body);
+                  res.send(body);
+              }
+          })
+      });
+
+});
+
+app.post('/api/stoploss', function (req, res) {
+    if(!checkToken(req.body.token)){
+        res.send('Invalid token');
+        return;
+    }
+
+     var Robinhood = require('robinhood')(credentials, function(){
+           var options = {
+              type: "market",
+              quantity: req.body.quantity,
+              bid_price: "",
+              stop_price: req.body.stop_price,
+              trigger:"stop",
+              instrument: {
+                  url: req.body.url,
+                  symbol: req.body.symbol
+              }
           }
           Robinhood.place_sell_order(options, function(error, response, body){
               if(error){
@@ -162,8 +199,11 @@ app.post('/api/order_sell', function (req, res) {
 });
 
 
+
+
 app.post('/api/order_cancel', function (req, res) {
     if(!checkToken(req.body.token)){
+        res.send('Invalid token');
         return;
     }
      var Robinhood = require('robinhood')(credentials, function(){
@@ -187,6 +227,7 @@ app.post('/api/order_cancel', function (req, res) {
 
 app.post('/api/orders', function (req, res) {
     if(!checkToken(req.body.token)){
+        res.send('Invalid token');
         return;
     }
 

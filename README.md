@@ -1,14 +1,29 @@
+$data = array('token'=>'','type'=>'market','quantity'=>1,'bid_price'=>"",'stop_price'=>77,"trigger"=>"",
+'url'=>'https://api.robinhood.com/instruments/50810c35-d215-4866-9758-0ada4ac79ffa/','symbol'=>'MSFT');
 
-$data = array('token'=>'','cancel'=> '/orders/34b0b086-ad44-440a-ba80-c1da2f3ab8b5/cancel/');
-
-
-$data = array('token'=>'','type'=>'limit','quantity'=>1,'bid_price'=>10.12,
-'url'=>'https://api.robinhood.com/instruments/ebab2398-028d-4939-9f1d-13bf38f81c50/','symbol'=>'FB');
 $data = http_build_query($data);
-      $handle = curl_init('http://localhost:3000/api/order_cancel');
+      $handle = curl_init('http://localhost:3000/api/order_sell');
       curl_setopt($handle, CURLOPT_POST, true);
       curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
       curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
       $response = curl_exec($handle);
-      //echo ($response);
+      echo ($response);
       $response = json_decode($response,true);
+	  var_dump($response);
+
+
+
+
+
+
+	  trigger = stop // stop loss
+
+	  stop loss 
+	  $data = array('token'=>'54!81%527*^%@97S_375caw05','quantity'=>1,'bid_price'=>"",'stop_price'=>80,
+'url'=>'https://api.robinhood.com/instruments/50810c35-d215-4866-9758-0ada4ac79ffa/','symbol'=>'MSFT');
+
+
+              // // Optional:
+              // trigger: String, // Defaults to "gfd" (Good For Day)
+              // time: String,    // Defaults to "immediate"
+              // type: String     // Defaults to "market", "limit"
