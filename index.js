@@ -205,6 +205,26 @@ app.post('/api/orders', function (req, res) {
 
 });
 
+app.post('/api/orders_status', function (req, res) {
+    if(!checkToken(req.body.token)){
+        return;
+    }
+
+       var Robinhood = require('robinhood')(credentials, function(){
+			Robinhood.url(req.body.url, function(err, response, body){
+                if(err){
+                    console.error(err);
+                     res.send(err);
+                }else{
+                    console.log("quote_data");
+                    console.log(body);
+                     res.send(body);
+                }
+            })
+        });
+
+});
+
 
 app.get('*', function (req, res) {
     res.sendfile('./public/index.html'); // load the single view file
