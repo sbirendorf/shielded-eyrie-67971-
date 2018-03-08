@@ -198,6 +198,69 @@ app.post('/api/stoploss', function (req, res) {
 
 });
 
+app.post('/api/stop_limit_sell', function (req, res) {
+    if(!checkToken(req.body.token)){
+        res.send('Invalid token');
+        return;
+    }
+
+     var Robinhood = require('robinhood')(credentials, function(){
+           var options = {
+              type: "limit",
+              quantity: req.body.quantity,
+              bid_price: req.body.bid_price,
+              stop_price: req.body.stop_price,
+              trigger:"stop",
+              instrument: {
+                  url: req.body.url,
+                  symbol: req.body.symbol
+              }
+          }
+          Robinhood.place_sell_order(options, function(error, response, body){
+              if(error){
+                  console.error(error);
+                   res.send(error);
+              }else{
+                  console.log(body);
+                  res.send(body);
+              }
+          })
+      });
+
+});
+
+app.post('/api/stop_limit_buy', function (req, res) {
+    if(!checkToken(req.body.token)){
+        res.send('Invalid token');
+        return;
+    }
+
+     var Robinhood = require('robinhood')(credentials, function(){
+           var options = {
+              type: "limit",
+              quantity: req.body.quantity,
+              bid_price: req.body.bid_price,
+              stop_price: req.body.stop_price,
+              trigger:"stop",
+              instrument: {
+                  url: req.body.url,
+                  symbol: req.body.symbol
+              }
+          }
+		  console.log(options);	
+          Robinhood.place_buy_order(options, function(error, response, body){
+              if(error){
+                  console.error(error);
+                   res.send(error);
+              }else{
+                  console.log(body);
+                  res.send(body);
+              }
+          })
+      });
+
+});
+
 
 
 
