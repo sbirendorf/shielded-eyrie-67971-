@@ -62,10 +62,11 @@ app.get('/api/get_price/:tagId', function (req, res) {
         });
 
 });
-app.get('/api/get_history/:tagId', function (req, res) {
+app.get('/api/get_history/:tagId/:time/:period', function (req, res) {
 
        var Robinhood = require('robinhood')(credentials, function(){
-       Robinhood.historicals(req.param("tagId"), '5minute', 'week', function(err, response, body){
+      // Robinhood.historicals(req.param("tagId"), '5minute', 'week', function(err, response, body){
+	   Robinhood.historicals(req.param("tagId"), req.param("time"), req.param("period"), function(err, response, body){	  
         if(err){
             console.error(err);
              res.send(err);
