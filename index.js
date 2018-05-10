@@ -330,6 +330,44 @@ app.post('/api/orders_status', function (req, res) {
 
 });
 
+app.post('/api/dividends', function (req, res) {
+    if(!checkToken(req.body.token)){
+        res.send('Invalid token');
+        return;
+    }
+
+     var Robinhood = require('robinhood')(credentials, function(){
+          
+          Robinhood.dividends( function(error, response, body){
+              if(error){
+                  console.error(error);
+                   res.send(error);
+              }else{
+                  console.log(body);
+                  res.send(body);
+              }
+          })
+      });
+
+});
+
+app.get('/api/get_news/:symbol', function (req, res) {
+    
+     var Robinhood = require('robinhood')(credentials, function(){
+          
+          Robinhood.news(req.param("symbol"), function(error, response, body){
+              if(error){
+                  console.error(error);
+                   res.send(error);
+              }else{
+                  console.log(body);
+                  res.send(body);
+              }
+          })
+      });
+
+});
+
 
 app.get('*', function (req, res) {
     res.sendfile('./public/index.html'); // load the single view file
