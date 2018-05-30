@@ -368,22 +368,6 @@ app.get('/api/get_news/:symbol', function (req, res) {
 
 });
 
-app.get('/api/get_similar/:id', function (req, res) {
-    
-     var Robinhood = require('robinhood')(credentials, function(){
-          
-           Robinhood.similar(req.param("id"), function(error, response, body){
-              if(error){
-                  console.error(error);
-                   res.send(error);
-              }else{
-                  console.log(body);
-                  res.send(body);
-              }
-          })
-      });
-
-});
 
 app.get('*', function (req, res) {
     res.sendfile('./public/index.html'); // load the single view file
