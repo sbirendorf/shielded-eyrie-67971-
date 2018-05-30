@@ -372,7 +372,7 @@ app.get('/api/get_similar/:id', function (req, res) {
     
      var Robinhood = require('robinhood')(credentials, function(){
           
-           Robinhood.news(req.param("symbol"), function(error, response, body){
+           Robinhood.news(req.param("id"), function(error, response, body){
               if(error){
                   console.error(error);
                    res.send(error);
