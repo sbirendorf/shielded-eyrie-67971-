@@ -19,8 +19,8 @@ app.use(methodOverride());
 
 //global 
 var credentials = {
-    username: 'sbirendorf@gmail.com',
-    password: 'bir38116554'
+    username: '',
+    password: ''
 };
 
 // listen (start app with node server.js) ======================================
